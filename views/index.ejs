@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NamazCoin</title>
+	<link rel="stylesheet" href="/styles.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preload" href="pictures/islam.svg" as="image" type="image/svg+xml">
+	
+</head>
+<body>
+	<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+
+	<div class="canvas1">
+	<canvas id="starCanvas"class="starCanvas"></canvas>
+	</div>
+
+	<div class="balance" id="balance"></div>
+
+
+	<div class="container">
+		<div class="center-planet"></div>
+		<div class="planet"></div>
+		<div class="planet2"></div>
+		<div class="planet3"></div>
+		<div class="planet4"></div>
+	</div>
+
+	<nav class="footer">
+		<ul class="menu-ul">
+			<li class="ul_profile perehod"><img src="../pictures/male.svg" alt="Profile"></li>
+			<li class="ul_referals perehod"><img src="../pictures/zakat.svg" alt="Referals"></li>
+			<li class="ul_clicker perehod"><img src="../pictures/islam.svg" alt="Clicker"></li>
+			<li class="ul_quests perehod"><img src="../pictures/quran.svg" alt="Quests"></li>
+			<li class="ul_airdrop perehod"><img src="../pictures/airdrop.svg" alt="Air Drop"></li>
+		</ul>
+		<div class="profile">
+			<div class="id-container">
+				<div class="photo-profile"><img src="<%= user_photo %>" alt="photo"></div>
+				<div><h1><%= user_name %></h1></div>
+			</div>
+		</div>
+		<div class="referals">
+			<div class="referal-container">
+				<p>За каждого приглашенного пользователя вы получаете % от его заработка.</p>
+				<h1>Total Referals</h1>
+				<p></p>
+			</div>
+		</div>
+		<div class="clicker">
+		<div class="clicker-menu">
+			<div class="clicker-circle" id="clicker-circle"></div>
+			<div class="upgrades-container">
+				<div class="upgrades-allah">
+					<div class="step"><b>Allah</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">4...</div>
+				</div>
+				<div class="upgrades-judgment">
+					<div class="step"><b>Judgment</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">4...</div>
+				</div>
+				<div class="upgrades-books">
+					<div class="step"><b>Books</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">Quran</div>
+				</div>
+				<div class="upgrades-prophes">
+					<div class="step"><b>Prophes</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">Mohammad</div>
+				</div>
+				<div class="upgrades-angels">
+					<div class="step"><b>Angels</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">Mohammad</div>
+				</div>
+				<div class="upgrades-iman">
+					<div class="step"><b>IMAN</b></div>
+					<div class="upgrades">1</div>
+					<div class="upgrades">2</div>
+					<div class="upgrades">3</div>
+					<div class="upgrades">4</div>
+					<div class="upgrades">5</div>
+					<div class="upgrades">6</div>
+				</div>
+				<div class="upgrades-al-haram">
+					<div class="step"><b>AL-HARAM</b></div>
+					<div class="upgrades">Mountain</div>
+					<div class="upgrades">Kaaba</div>
+				</div>
+				
+				<div class="upgrades-shahada" style="position: relative;">
+					<div class="step">
+						<div>SHAHADA</div>
+						<div>1212</div>
+					</div>
+					<div class="upgrades">Saum</div>
+					<div class="upgrades">Salat</div>
+					<div class="upgrades">Hadj</div>
+					<div class="upgrades">Zakat</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="quests">
+			<p>Quests</p>
+		</div>
+		<div class="airdrop">
+			<p>Air Drop</p>
+		</div>
+	</nav>
+
+	<script src="/script.js"></script>
+</body>
+</html>
