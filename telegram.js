@@ -152,6 +152,7 @@ app.get('/', async (req, res) => {
     });
   } else {
     res.send('User not found');
+    console.log(current_user)
   }
 });
 
