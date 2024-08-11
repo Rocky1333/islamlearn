@@ -51,55 +51,8 @@ let current_user = null;
 let current_photo = null
 
 bot.onText(/\/start/, async (msg) => {
-    const user_id = msg.from.id;
-    current_user = user_id;
     const chat_id = msg.chat.id;
-    const user_name = msg.from.first_name;
-    
-    try {
-      const ProfilePhoto = await bot.getUserProfilePhotos(user_id)
-      
-      if(ProfilePhoto.total_count > 0){
-        const photos = ProfilePhoto.photos;
-        const lastPhoto = photos[photos.length - 1]
-        const largestPhoto = lastPhoto[lastPhoto.length - 1];
-        const fileId = largestPhoto.file_id;
-
-        const file = await bot.getFile(fileId);
-        const filePath = file.file_path;
-        const fileUrl = `https://api.telegram.org/file/bot${token}/${filePath}`;
-        current_photo = fileUrl;
-        bot.sendMessage(chat_id, fileUrl);
-
-      }
-    } catch (error) {
-
-    }
-
-    const new_user = {
-        user_id: user_id,
-        user_name: user_name,
-        balance: 0,
-        level: 1,
-        click: 1
-    };
-
-    try {
-      const db = await connectToDb();
-      const collection = db.collection('_users');
-
-      const user = await collection.findOne({ user_id });
-        if (user) {
-          await collection.updateOne({user_id}, {$set: {user_name: user_name}})
-          bot.sendMessage(chat_id, `Дадо дб, ${user_name}!`);
-        } else {
-          await collection.insertOne(new_user);
-          bot.sendMessage(chat_id, `Пользователь ${user_name} был добавлен в базу данных.`);
-          console.log(user_id, "был добавлен в базу данных _users");
-        }
-    } catch (err) {
-      console.error("Ошибка:", err);
-    }
+    bot.sendMessage(chat_id, "Здравствуй джыл")
 });
 
 // получение user_name пользователя по его user_id телеграм 
@@ -152,8 +105,6 @@ app.get('/', async (req, res) => {
     });
   } else {
     res.send('User not found');
-    
-    
   }
 });
 
