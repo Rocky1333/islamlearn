@@ -141,14 +141,19 @@ const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
 const user = initDataUnsafe.user
 const userId = user.id
 
-fetch('/', {
-	method: "POST",
-	headers: {'Content-type':'application/json'},
-	body: JSON.stringify({id: userId})
+
+async function pidaras(){
+	await fetch('/', {
+		method: "POST",
+		headers: {'Content-type':'application/json'},
+		body: JSON.stringify({id: userId})
 	})
-.then(response => response.json())
-.then(data => console.log("succes", data))
-.catch(error => console.log("error", error))
+	.then(response => response.json())
+	.then(data => console.log("succes", data))
+	.catch(error => console.log("error", error))
+}
+
+pidaras()
 
 
 /* SOCKET */ 
