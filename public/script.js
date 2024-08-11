@@ -137,12 +137,13 @@ document.querySelector('.starCanvas').addEventListener('click', closeMenu);
 
 // web app 
 
-const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-const user = initDataUnsafe.user
-const userId = user.id
+
 
 
 async function pidaras(){
+	const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+	const user = initDataUnsafe.user
+	const userId = user.id
 	await fetch('/', {
 		method: "POST",
 		headers: {'Content-type':'application/json'},
