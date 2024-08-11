@@ -1,3 +1,4 @@
+
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -134,12 +135,24 @@ document.querySelector('.ul_airdrop').addEventListener('click', () => openMenu(m
 document.querySelector('.container').addEventListener('click', closeMenu);
 document.querySelector('.starCanvas').addEventListener('click', closeMenu);
 
+// web app 
 
+const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+const user = initDataUnsafe.user
+const userId = user.id
 
-
+fetch('/', {
+	method: "POST",
+	headers: {'Content-type':'application/json'},
+	body: JSON.stringify({id: userId})
+	})
+.then(response => response.json())
+.then(data => console.log("succes", data))
+.catch(error => console.log("error", error))
 
 
 /* SOCKET */ 
+
 
 const socket = io('http://localhost:3000');
 		let balance = null;
@@ -182,6 +195,10 @@ const socket = io('http://localhost:3000');
 			}
 		});
 
+		
 
 		
+
+		
+			
 

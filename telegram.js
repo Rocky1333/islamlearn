@@ -4,15 +4,19 @@ const express = require('express');
 const app = express();
 const http = require("http")
 const server = http.createServer(app)
+
 // Подключаем Socket.io
 const socketIo = require('socket.io');
 const io = socketIo(server);
-// Подключаемся к MongoDB ------------------------------------------------------------------------------------------
+
+// Подключаемся к MongoDB 
+
+
+
 const { MongoClient } = require('mongodb');
 const url = "mongodb+srv://margiev:12345@alan.wcglgbh.mongodb.net/?retryWrites=true&w=majority&appName=Alan";
 const dbName = "users";
 const client = new MongoClient(url);
-
 async function connectToDb() {
     try {
         await client.connect();
@@ -23,7 +27,10 @@ async function connectToDb() {
     }
 }
 
-// Подключаем Telegram Bot API --------------------------------------------------------------------------------------
+// Подключаем Telegram Bot API 
+
+
+
 const TelegramBot = require('node-telegram-bot-api');
 const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
 const bot = new TelegramBot(token, { polling: true });
@@ -37,6 +44,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Обрабочтик команды /start в телеграм боте --------------------------------------------------------------------------
 let current_user = null;
@@ -94,7 +102,7 @@ bot.onText(/\/start/, async (msg) => {
     }
 });
 
-// получение user_name пользователя по его user_id телеграм ----------------------------------------------------------------------------------------
+// получение user_name пользователя по его user_id телеграм 
 async function findUserByUserId(current_user){
     try {
       const db = await connectToDb();
@@ -111,7 +119,7 @@ async function findUserByUserId(current_user){
     }
   };
 
-// Запуск сервера -----------------------------------------------------------------------------------------------------------
+// Запуск сервера 
 
 const port = 3000;
 
@@ -119,11 +127,18 @@ server.listen(port, () => {
     console.log(`Сервер запущен на http://localhost:3000`);
 });
 
-// обработка папки public ----------------------------------------------------------------------------------------------------
+// обработка папки public 
 app.use(express.static('public'));
 
+// получаем id из webapp
 
-// Отображаем в index,ejs user_name пользователя из телеграм -----------------------------------------------------------------
+app.post('/', async (req, res) => {
+  const user = req.body;
+  const id = user.id;
+  current_user = id;
+})
+
+// Отображаем в index,ejs user_name пользователя из телеграм 
 app.get('/', async (req, res) => {
   const user = await findUserByUserId(current_user);
 
@@ -139,7 +154,6 @@ app.get('/', async (req, res) => {
     res.send('User not found');
   }
 });
-
 
 
 // socket ----------------------------------------------------------------------------------------------------------------------
