@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 
 bot.onText(/\/start/, async (msg) => {
     const chat_id = msg.chat.id;
-<<<<<<< HEAD
+
     const user_name = msg.from.first_name;
 
     bot.sendMessage(chat_id, "Откройте наше веб-приложение:", {
@@ -60,9 +60,9 @@ bot.onText(/\/start/, async (msg) => {
           ]
       }
   });
-=======
+
     bot.sendMessage(chat_id, "Здравствуй джыл")
->>>>>>> 978e5264639603d25157fefaa90ecba299603b66
+
 });
 
 // получение user_name пользователя по его user_id телеграм 
@@ -124,7 +124,7 @@ app.get('/getFirstName', (req, res) => {
   res.json({firstName: firstName})
 })
 
-<<<<<<< HEAD
+
 
 // Запуск сервера 
 
@@ -132,7 +132,7 @@ const port = 5500;
 
 server.listen(port, () => {
     console.log(`Сервер запущен на https://94c8-87-215-94-174.ngrok-free.app`);
-=======
+
   if (user) {
     const data = {
       user_name: user.user_name,
@@ -144,7 +144,7 @@ server.listen(port, () => {
   } else {
     res.send('User not found');
   }
->>>>>>> 978e5264639603d25157fefaa90ecba299603b66
+
 });
 
 
