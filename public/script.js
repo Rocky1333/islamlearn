@@ -138,6 +138,7 @@ document.querySelector('.starCanvas').addEventListener('click', closeMenu);
 
 // web app 
 
+<<<<<<< HEAD
 const tg = window.Telegram.WebApp;
 const id = tg.initDataUnsafe.user.id;
 const username = tg.initDataUnsafe.user.first_name;
@@ -161,6 +162,18 @@ fetch('/', {
 });
 
 fetch('/getFirstName')
+=======
+async function pidaras(){
+	const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+	const user = initDataUnsafe.user
+	const userId = user.id
+	const userName = user.userName
+	await fetch('/', {
+		method: "POST",
+		headers: {'Content-type':'application/json'},
+		body: JSON.stringify({id: userId})
+	})
+>>>>>>> 978e5264639603d25157fefaa90ecba299603b66
 	.then(response => response.json())
 	.then(data => {
 		const firstname = document.querySelector('.firstname h1')
