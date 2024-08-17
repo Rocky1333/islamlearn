@@ -17,6 +17,7 @@ const { MongoClient } = require('mongodb');
 const url = "mongodb+srv://margiev:12345@alan.wcglgbh.mongodb.net/?retryWrites=true&w=majority&appName=Alan";
 const dbName = "users";
 const client = new MongoClient(url);
+
 async function connectToDb() {
     try {
         await client.connect();
@@ -29,131 +30,103 @@ async function connectToDb() {
 
 // Подключаем Telegram Bot API 
 
-
-
 const TelegramBot = require('node-telegram-bot-api');
 const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
 const bot = new TelegramBot(token, { polling: true });
 
-// шаблонизатор ------------------------------------------------------------------------------------------------------
-const path = require('path');
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
+const path = require('path');
+const cors = require('cors');
+app.use(cors());
 
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Обрабочтик команды /start в телеграм боте --------------------------------------------------------------------------
-let current_user = null;
-let current_photo = null
 
 bot.onText(/\/start/, async (msg) => {
-    const user_id = msg.from.id;
-    current_user = user_id;
     const chat_id = msg.chat.id;
     const user_name = msg.from.first_name;
-    
-    try {
-      const ProfilePhoto = await bot.getUserProfilePhotos(user_id)
-      
-      if(ProfilePhoto.total_count > 0){
-        const photos = ProfilePhoto.photos;
-        const lastPhoto = photos[photos.length - 1]
-        const largestPhoto = lastPhoto[lastPhoto.length - 1];
-        const fileId = largestPhoto.file_id;
 
-        const file = await bot.getFile(fileId);
-        const filePath = file.file_path;
-        const fileUrl = `https://api.telegram.org/file/bot${token}/${filePath}`;
-        current_photo = fileUrl;
-        bot.sendMessage(chat_id, fileUrl);
-
+    bot.sendMessage(chat_id, "Откройте наше веб-приложение:", {
+      reply_markup: {
+          inline_keyboard: [
+              [{
+                  text: "Открыть Web App",
+                  web_app: { url: "https://94c8-87-215-94-174.ngrok-free.app" } 
+              }]
+          ]
       }
-    } catch (error) {
-
-    }
-
-    const new_user = {
-        user_id: user_id,
-        user_name: user_name,
-        balance: 0,
-        level: 1,
-        click: 1
-    };
-
-    try {
-      const db = await connectToDb();
-      const collection = db.collection('_users');
-
-      const user = await collection.findOne({ user_id });
-        if (user) {
-          await collection.updateOne({user_id}, {$set: {user_name: user_name}})
-          bot.sendMessage(chat_id, `Дадо дб, ${user_name}!`);
-        } else {
-          await collection.insertOne(new_user);
-          bot.sendMessage(chat_id, `Пользователь ${user_name} был добавлен в базу данных.`);
-          console.log(user_id, "был добавлен в базу данных _users");
-        }
-    } catch (err) {
-      console.error("Ошибка:", err);
-    }
+  });
 });
 
 // получение user_name пользователя по его user_id телеграм 
-async function findUserByUserId(current_user){
+async function findUserByUserId(id){
     try {
       const db = await connectToDb();
       const collection = db.collection('_users')
       const user = await collection.findOne(
-        {user_id: current_user},
-        {projection: {user_name: 1, click: 1, balance: 1, level: 1}}
+        {userId: id},
+        {projection: {firstName: 1, click: 1, balance: 1, level: 1}}
       )
       return user;
     }
     catch (err) {
-      console.log("пиздец!")
+      console.log("жопа", err)
       throw err
     }
   };
 
-// Запуск сервера 
-
-const port = 3000;
-
-server.listen(port, () => {
-    console.log(`Сервер запущен на http://localhost:3000`);
-});
 
 // обработка папки public 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// получаем id из webapp
+let userId = null
+let firstName = null
 
 app.post('/', async (req, res) => {
-  const user = req.body;
-  const id = user.id;
-  current_user = id;
+  const {id, username} = req.body;
+  
+  userId = id;
+  firstName = username
+  console.log(userId)
+  console.log(firstName)
+  
+  const newUser = {
+    userId: userId,
+    firstName: firstName,
+    balance: 0,
+    level: 1,
+    click: 1
+  }
+
+  const db = await connectToDb()
+  const collection = db.collection('_users')
+  const user = await collection.findOne( {userId: userId } )
+
+  if(!user){
+    await collection.insertOne(newUser)
+  } else {
+    collection.updateOne({userId: userId}, { $set: { firstName: firstName } })
+    res.status(200).json({ message: 'Пользователь уже существует', user });
+  }
+
+
+
 })
 
-// Отображаем в index,ejs user_name пользователя из телеграм 
-app.get('/', async (req, res) => {
-  const user = await findUserByUserId(current_user);
+app.get('/getFirstName', (req, res) => {
+  res.json({firstName: firstName})
+})
 
-  if (user) {
-    const data = {
-      user_name: user.user_name,
-    }
-    res.render('index', {
-      user_name: user.user_name,
-      user_photo: current_photo
-    });
-  } else {
-    res.send('User not found');
-    console.log(current_user)
-  }
+
+// Запуск сервера 
+
+const port = 5500;
+
+server.listen(port, () => {
+    console.log(`Сервер запущен на https://94c8-87-215-94-174.ngrok-free.app`);
 });
 
 
@@ -161,37 +134,36 @@ app.get('/', async (req, res) => {
 
 io.on('connect', async socket => {
 
-  const user = await findUserByUserId(current_user)
+  const user = await findUserByUserId(userId)
+  
   if (user) {
-       
+
     let user_balance = user.balance;
     let click = user.click;
     let level = user.level;
-    
+
     socket.emit('balance', user_balance);
 
     socket.emit('click', click);
 
     socket.emit('level', level);
-    
+
+    const db = await connectToDb();
+    const users = db.collection("_users")
 
     async function UpdateUserBalance(balance){
-      const db = await connectToDb();
-      const users = db.collection("_users")
-      await users.updateOne({ user_id: current_user }, { $set: { balance: balance } });
-      
+      await users.updateOne({ userId: userId }, { $set: { balance: balance } });
     }
 
-    
 
     socket.on("balance", balance => {
       user_balance = balance;
     })
 
-    socket.on('disconnect', () => {
-      UpdateUserBalance(user_balance)
+    socket.on('disconnect', async () => {
+      await UpdateUserBalance(user_balance)
     });
-  
+
   };
 
 });

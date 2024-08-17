@@ -1,4 +1,5 @@
 
+
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -6,7 +7,7 @@ canvas.width = document.body.clientWidth; // Установка ширины can
 canvas.height = document.body.clientHeight; // Установка высоты canvas равной высоте body
 
 const stars = [];
-const numStars = 200;
+const numStars = 400;
 
 for (let i = 0; i < numStars; i++) {
 	stars.push({
@@ -111,7 +112,7 @@ function closeMenu() {
     let menuHeightPx = parseFloat(window.getComputedStyle(menu).height);
 
     if (menuHeightPx >= window.innerHeight * 0.75) {
-        menu.style.height = "10vh";
+        menu.style.height = "13vh";
         canvas_bg.style.filter = "none";
         container.style.filter = "none";
         body.style.overflow = "auto";
@@ -137,39 +138,58 @@ document.querySelector('.starCanvas').addEventListener('click', closeMenu);
 
 // web app 
 
+const tg = window.Telegram.WebApp;
+const id = tg.initDataUnsafe.user.id;
+const username = tg.initDataUnsafe.user.first_name;
 
+console.log(id);
+console.log(username);
 
+fetch('/', {
+    method: 'POST',
+    body: JSON.stringify({ id, username }),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Server response:', data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
 
-async function pidaras(){
-	const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-	const user = initDataUnsafe.user
-	const userId = user.id
-	await fetch('/', {
-		method: "POST",
-		headers: {'Content-type':'application/json'},
-		body: JSON.stringify({id: userId})
-	})
+fetch('/getFirstName')
 	.then(response => response.json())
-	.then(data => console.log("succes", data))
-	.catch(error => console.log("error", error))
-}
+	.then(data => {
+		const firstname = document.querySelector('.firstname h1')
 
-pidaras()
+		firstname.textContent = data.firstName;
 
+	})
+	.catch(err => console.log(err)) 
+		
+	
 
 /* SOCKET */ 
 
 
-const socket = io('http://localhost:3000');
+const socket = io('wss://94c8-87-215-94-174.ngrok-free.app')
 		let balance = null;
 
+		socket.on('connect', () => {
+			console.log('Connected to server');
+		});
+
 		socket.on("balance", user_balance => {
-			document.getElementById('balance').innerHTML = user_balance;
+			document.getElementById('balance').textContent = user_balance;
 			balance = user_balance;
 		});
 
 		socket.on("click", click => {
 			const clicker_circle = document.getElementById('clicker-circle')
+
 			clicker_circle.addEventListener("click", () => {
 				balance += click;
 				clicker_circle.style.transform = "scale(1.02)";

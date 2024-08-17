@@ -8,7 +8,11 @@ html, body {
 	overflow-x: hidden;
 	overflow-y: auto;
 	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: none; /* IE и старый Edge */
 }
+
+
 
 /* Canvas Styles */
 
@@ -18,7 +22,10 @@ html, body {
 	top: 0;
 	left: 0;
 	position: absolute;
+	
 }
+
+
 
 /* balance */
 
@@ -43,7 +50,7 @@ html, body {
 	opacity: 99%;
 	z-index: 1;
 	overflow-y: auto;
-	height: 10vh;
+	height: 13vh;
 	transition: height 0.20s ease;
 	overflow: hidden;
 }
@@ -102,12 +109,24 @@ li img {
 	height: 75vh;
 }
 
+/* clicker menu */
+
 .clicker-menu {
 	height: 120vh;
 	overflow-y: auto;
 	scrollbar-width: none;
 	width: 90vw;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE и старый Edge */
 }
+
+.clicker-menu::-webkit-scrollbar {
+	display: none;
+  }
+
+/* quests */
 
 .quests {
 	display: none;

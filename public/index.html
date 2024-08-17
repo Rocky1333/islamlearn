@@ -4,16 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>NamazCoin</title>
-	<link rel="stylesheet" href="https://islamlearn.vercel.app/styles.css">
+	<link rel="stylesheet" href="styles.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="preload" href="pictures/islam.svg" as="image" type="image/svg+xml">
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+	<script src="script.js" defer></script>
+	
 </head>
 <body>
-	<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 	
-  	
-
+	
 	<div class="canvas1">
 	<canvas id="starCanvas"class="starCanvas"></canvas>
 	</div>
@@ -39,8 +39,8 @@
 		</ul>
 		<div class="profile">
 			<div class="id-container">
-				<div class="photo-profile"><img src="<%= user_photo %>" alt="photo"></div>
-				<div><h1><%= user_name %></h1></div>
+				<div class="photo-profile"><img src="" alt="photo"></div>
+				<div class="firstname"><h1></h1></div>
 			</div>
 		</div>
 		<div class="referals">
@@ -124,7 +124,6 @@
 			<p>Air Drop</p>
 		</div>
 	</nav>
-
-	<script src="https://islamlearn.vercel.app/script.js"></script>
+	<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </body>
 </html>
