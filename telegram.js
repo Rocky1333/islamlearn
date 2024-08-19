@@ -5,14 +5,6 @@ const app = express();
 const http = require("http")
 const server = http.createServer(app)
 
-// Подключаем Socket.io
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "https://islamlearn.vercel.app/",
-    methods: ["GET", "POST"]
-  }
-});
-
 
 // Подключаемся к MongoDB 
 const { MongoClient } = require('mongodb');
@@ -142,6 +134,12 @@ server.listen(port, () => {
 
 
 // socket ----------------------------------------------------------------------------------------------------------------------
+
+var io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 io.on('connect', async socket => {
 
