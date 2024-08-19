@@ -10,9 +10,6 @@ const socketIo = require('socket.io');
 const io = socketIo(server);
 
 // Подключаемся к MongoDB 
-
-
-
 const { MongoClient } = require('mongodb');
 const url = "mongodb+srv://margiev:12345@alan.wcglgbh.mongodb.net/?retryWrites=true&w=majority&appName=Alan";
 const dbName = "users";
@@ -37,10 +34,7 @@ const bot = new TelegramBot(token);
 
 const path = require('path');
 const cors = require('cors');
-app.use(cors({
-  origin: 'https://islamlearn.vercel.app', // Замените на ваш реальный домен
-  methods: ['GET', 'POST'], // Разрешенные методы
-}));
+
 
 
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
