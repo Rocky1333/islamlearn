@@ -50,12 +50,12 @@ bot.onText(/\/start/, async (msg) => {
 
     const user_name = msg.from.first_name;
 
-    bot.sendMessage(chat_id, "Откройте наше веб-приложение:", {
+    bot.sendMessage(chat_id, "Залетай в нашу халяль игру:", {
       reply_markup: {
           inline_keyboard: [
               [{
-                  text: "Открыть Web App",
-                  web_app: { url: "https://94c8-87-215-94-174.ngrok-free.app" } 
+                  text: "Открыть IslamLearn",
+                  web_app: { url: "islamlearn.vercel.app" } 
               }]
           ]
       }
