@@ -6,8 +6,13 @@ const http = require("http")
 const server = http.createServer(app)
 
 // Подключаем Socket.io
-const socketIo = require('socket.io');
-const io = socketIo(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "https://islamlearn.vercel.app/",
+    methods: ["GET", "POST"]
+  }
+});
+
 
 // Подключаемся к MongoDB 
 const { MongoClient } = require('mongodb');
