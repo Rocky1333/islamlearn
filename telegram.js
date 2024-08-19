@@ -55,7 +55,7 @@ bot.onText(/\/start/, async (msg) => {
           inline_keyboard: [
               [{
                   text: "Открыть IslamLearn",
-                  web_app: { url: "islamlearn.vercel.app" } 
+                  web_app: { url: "https://ff7a-87-215-94-174.ngrok-free.app" } 
               }]
           ]
       }
