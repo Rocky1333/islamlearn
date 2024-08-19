@@ -174,7 +174,7 @@ fetch('/getFirstName')
 /* SOCKET */ 
 
 
-const socket = io('https://islamlearn.vercel.app/')
+const socket = io('https://islamlearn.vercel.app/',{transports: ['websocket']})
 		let balance = null;
 
 		socket.on('connect', () => {

@@ -122,6 +122,9 @@ app.get('/getFirstName', (req, res) => {
 })
 
 
+server.prependListener("request", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+});
 
 // Запуск сервера 
 
