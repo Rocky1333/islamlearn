@@ -160,21 +160,26 @@ fetch('/', {
 .catch(error => {
     console.error('Error:', error);
 });
-
+const n = null
 fetch('/getFirstName')
 	.then(response => response.json())
 	.then(data => {
 		const firstname = document.querySelector('.firstname h1')
 		firstname.textContent = data.firstName;
+		n = data.firstName;
 	})
 	.catch(err => console.log(err)) 
 		
-	
+
 
 /* SOCKET */ 
 
 
-const socket = io('https://islamlearn.vercel.app/',{transports: ['websocket']})
+const socket = io('https://islamlearn.vercel.app', {
+	query: {
+	  userId: n
+	}
+  });
 		let balance = null;
 
 		socket.on('connect', () => {

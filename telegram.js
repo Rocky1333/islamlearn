@@ -138,46 +138,41 @@ server.listen(port, () => {
 
 // socket ----------------------------------------------------------------------------------------------------------------------
 
-var io = require('socket.io')(server, {
+const io = require('socket.io')(server, {
   cors: {
     origin: '*',
   }
 });
 
-io.on('connect', async socket => {
+io.on('connection', async (socket) => {
+  const userId = socket.handshake.query.userId;  // Извлечение userId из запроса
 
-  const user = await findUserByUserId(userId)
-  console.log(user)
+  const user = await findUserByUserId(userId);
+  console.log(user);
   if (user) {
-
     let user_balance = user.balance;
     let click = user.click;
     let level = user.level;
 
     socket.emit('balance', user_balance);
-
     socket.emit('click', click);
-
     socket.emit('level', level);
 
     const db = await connectToDb();
-    const users = db.collection("_users")
+    const users = db.collection("_users");
 
-    async function UpdateUserBalance(balance){
+    async function UpdateUserBalance(balance) {
       await users.updateOne({ userId: userId }, { $set: { balance: balance } });
     }
 
-
     socket.on("balance", balance => {
       user_balance = balance;
-    })
-
-    socket.on('disconnect', async () => {
-      await UpdateUserBalance(user_balance)
     });
 
-  };
-
+    socket.on('disconnect', async () => {
+      await UpdateUserBalance(user_balance);
+    });
+  }
 });
 
 // закрытие базы данных
