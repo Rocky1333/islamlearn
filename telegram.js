@@ -37,7 +37,10 @@ const bot = new TelegramBot(token);
 
 const path = require('path');
 const cors = require('cors');
-app.use(cors());
+app.use(cors({
+  origin: '*', // Разрешить все домены
+}));
+
 
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
