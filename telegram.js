@@ -38,7 +38,8 @@ const bot = new TelegramBot(token);
 const path = require('path');
 const cors = require('cors');
 app.use(cors({
-  origin: '*', // Разрешить все домены
+  origin: 'https://islamlearn.vercel.app', // Замените на ваш реальный домен
+  methods: ['GET', 'POST'], // Разрешенные методы
 }));
 
 
@@ -141,7 +142,7 @@ server.listen(port, () => {
 io.on('connect', async socket => {
 
   const user = await findUserByUserId(userId)
-  
+  console.log(user)
   if (user) {
 
     let user_balance = user.balance;
@@ -179,7 +180,6 @@ process.on('SIGINT', async () => {
     await client.close();
     process.exit();
 });
-
 
 
 
