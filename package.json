@@ -19,7 +19,7 @@
   "description": "allah akbar",
   "main": "telegram.js",
   "scripts": {
-    "test": "nodemon telegram.js"
+    "test": "node telegram.js"
   },
   "author": "alan",
   "license": "ISC"

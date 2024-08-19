@@ -115,9 +115,6 @@ app.post('/', async (req, res) => {
     collection.updateOne({userId: userId}, { $set: { firstName: firstName } })
     res.status(200).json({ message: 'Пользователь уже существует', user });
   }
-
-
-
 })
 
 app.get('/getFirstName', (req, res) => {
@@ -128,22 +125,10 @@ app.get('/getFirstName', (req, res) => {
 
 // Запуск сервера 
 
-const port = 5500;
+const port = 3000;
 
 server.listen(port, () => {
-    console.log(`Сервер запущен на https://94c8-87-215-94-174.ngrok-free.app`);
-
-  if (user) {
-    const data = {
-      user_name: user.user_name,
-    }
-    res.render('index', {
-      user_name: user.user_name,
-      user_photo: current_photo
-    });
-  } else {
-    res.send('User not found');
-  }
+    console.log(`Сервер запущен на islamlearn.vercel.app`);
 
 });
 
