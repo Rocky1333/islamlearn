@@ -174,7 +174,7 @@ fetch('/getFirstName')
 /* SOCKET */ 
 
 
-const socket = io('wss://ff7a-87-215-94-174.ngrok-free.app')
+const socket = io('https://islamlearn.vercel.app/')
 		let balance = null;
 
 		socket.on('connect', () => {

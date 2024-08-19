@@ -32,7 +32,7 @@ async function connectToDb() {
 
 const TelegramBot = require('node-telegram-bot-api');
 const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token);
 
 
 const path = require('path');
@@ -55,7 +55,7 @@ bot.onText(/\/start/, async (msg) => {
           inline_keyboard: [
               [{
                   text: "Открыть IslamLearn",
-                  web_app: { url: "https://ff7a-87-215-94-174.ngrok-free.app" } 
+                  web_app: { url: "https://islamlearn.vercel.app/" } 
               }]
           ]
       }
