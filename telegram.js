@@ -29,15 +29,6 @@ const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
 const bot = new TelegramBot(token);
 
 
-const path = require('path');
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Разрешает запросы с любого домена
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
-
 
 
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
