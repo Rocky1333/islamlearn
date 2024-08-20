@@ -88,19 +88,15 @@ async function findUserByUserId(id){
 app.use(express.static(path.join(__dirname, 'public')));
 
 let userId = null
-let firstName = null
 
 app.post('/', async (req, res) => {
   const {id, username} = req.body;
   
-  userId = id;
-  firstName = username
-  console.log(userId)
-  console.log(firstName)
+  console.log(id)
   
   const newUser = {
-    userId: userId,
-    firstName: firstName,
+    userId: id,
+    firstName: username,
     balance: 0,
     level: 1,
     click: 1
@@ -108,21 +104,16 @@ app.post('/', async (req, res) => {
 
   const db = await connectToDb()
   const collection = db.collection('_users')
-  const user = await collection.findOne( {userId: userId } )
+  const user = await collection.findOne( {userId: id } )
 
   if(!user){
     await collection.insertOne(newUser)
   } else {
-    collection.updateOne({userId: userId}, { $set: { firstName: firstName } })
+    collection.updateOne({userId: id}, { $set: { firstName: username } })
     res.status(200).json({ message: 'Пользователь уже существует', user });
   }
 
 })
-
-
-server.prependListener("request", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-});
 
 // Запуск сервера 
 
@@ -130,7 +121,6 @@ const port = process.env.PORT || 3000;
 
 server.listen(port, () => {
     console.log(`Сервер запущен на islamlearn.vercel.app`);
-
 });
 
 
@@ -139,9 +129,9 @@ server.listen(port, () => {
 const { Server } = require('socket.io');
 const io = new Server(server);
 
-const user = findUserByUserId(userId)
-
 io.on('connection', async (socket) => {
+
+ const user = findUserByUserId(userId)
 
   if (user) {
     let user_balance = user.balance;
