@@ -87,7 +87,6 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let userId = null
 
 app.post('/', async (req, res) => {
   const {id, username} = req.body;
@@ -131,7 +130,7 @@ const io = new Server(server);
 
 io.on('connection', async (socket) => {
 
- const user = findUserByUserId(userId)
+ const user = socket.handshake.query.userId
 
   if (user) {
     let user_balance = user.balance;

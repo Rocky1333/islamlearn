@@ -168,7 +168,9 @@ fetch('/', {
 /* SOCKET */ 
 
 
-const socket = io('https://islamlearn.vercel.app')
+const socket = io('https://islamlearn.vercel.app', {
+	query: { userId: id } // Передача userId
+  });
 
 		socket.on('connect', () => {
 			console.log('Connected to server');
