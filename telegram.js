@@ -122,8 +122,7 @@ const io = new Server(server);
 io.on('connection', async (socket) => {
 
  const id = socket.handshake.query.userId
- const user = findUserByUserId(id)
-
+ const user = await findUserByUserId(id)
 
 
   if (user) {
