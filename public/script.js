@@ -149,7 +149,7 @@ console.log(username);
 const firstname = document.querySelector('.firstname h1')
 firstname.textContent = username;
 
-fetch('/', {
+fetch('https://islamlearn.vercel.app/', {
     method: 'POST',
     body: JSON.stringify({ id, username }),
     headers: {
