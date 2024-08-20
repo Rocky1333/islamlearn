@@ -1,4 +1,4 @@
-
+const path = require('path')
 // Импортируем необходимые библиотеки ------------------------------------------------------------------------------
 const express = require('express');
 const app = express();
@@ -22,40 +22,10 @@ async function connectToDb() {
     }
 }
 
-// Подключаем Telegram Bot API 
-
-const TelegramBot = require('node-telegram-bot-api');
-const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
-const bot = new TelegramBot(token);
-
-
-const path = require('path')
-
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-bot.onText(/\/start/, async (msg) => {
-    const chat_id = msg.chat.id;
-
-    const user_name = msg.from.first_name;
-
-    bot.sendMessage(chat_id, "Залетай в нашу халяль игру:", {
-      reply_markup: {
-          inline_keyboard: [
-              [{
-                  text: "Открыть IslamLearn",
-                  web_app: { url: "https://islamlearn.vercel.app/" } 
-              }]
-          ]
-      }
-  });
-
-    bot.sendMessage(chat_id, "Здравствуй джыл")
-
-});
 
 // получение user_name пользователя по его user_id телеграм 
 async function findUserByUserId(id){
@@ -81,9 +51,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/', async (req, res) => {
   const {id, username} = req.body;
-  
+
   console.log(id)
-  
+
   const newUser = {
     userId: id,
     firstName: username,
