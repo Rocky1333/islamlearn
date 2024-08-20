@@ -29,7 +29,7 @@ const token = "7179470973:AAFd-JnC8bpNE36X1VAYV0eb21CbGSrmexM";
 const bot = new TelegramBot(token);
 
 
-
+const path = require('path')
 
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
