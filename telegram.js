@@ -136,7 +136,7 @@ io.on('connection', async (socket) => {
     const users = db.collection("_users");
 
     async function UpdateUserBalance(balance) {
-      await users.updateOne({ userId: userId }, { $set: { balance: balance } });
+      await users.updateOne({ userId: user }, { $set: { balance: balance } });
     }
 
     socket.on("balance", balance => {
