@@ -124,7 +124,7 @@ io.on('connection', async (socket) => {
  const id = socket.handshake.query.userId
  const user = await findUserByUserId(id)
 
-
+console.log(user)
   if (user) {
     let user_balance = user.balance;
     let click = user.click;
