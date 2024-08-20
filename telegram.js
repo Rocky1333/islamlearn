@@ -121,7 +121,10 @@ const io = new Server(server);
 
 io.on('connection', async (socket) => {
 
- const user = socket.handshake.query.userId
+ const id = socket.handshake.query.userId
+ const user = findUserByUserId(id)
+
+
 
   if (user) {
     let user_balance = user.balance;
