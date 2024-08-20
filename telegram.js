@@ -114,15 +114,6 @@ app.post('/', async (req, res) => {
 
 })
 
-// Запуск сервера 
-
-const port = process.env.PORT || 3000;
-
-server.listen(port, () => {
-    console.log(`Сервер запущен на islamlearn.vercel.app`);
-});
-
-
 // socket ----------------------------------------------------------------------------------------------------------------------
 
 const { Server } = require('socket.io');
@@ -156,6 +147,12 @@ io.on('connection', async (socket) => {
       await UpdateUserBalance(user_balance);
     });
   }
+});
+
+const port = process.env.PORT || 3000;
+
+server.listen(port, () => {
+    console.log(`Сервер запущен на islamlearn.vercel.app`);
 });
 
 // закрытие базы данных
