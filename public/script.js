@@ -146,6 +146,9 @@ const username = tg.initDataUnsafe.user.first_name;
 console.log(id);
 console.log(username);
 
+const firstname = document.querySelector('.firstname h1')
+firstname.textContent = username;
+
 fetch('/', {
     method: 'POST',
     body: JSON.stringify({ id, username }),
@@ -160,27 +163,12 @@ fetch('/', {
 .catch(error => {
     console.error('Error:', error);
 });
-const n = null
-fetch('/getFirstName')
-	.then(response => response.json())
-	.then(data => {
-		const firstname = document.querySelector('.firstname h1')
-		firstname.textContent = data.firstName;
-		n = data.firstName;
-	})
-	.catch(err => console.log(err)) 
-		
 
 
 /* SOCKET */ 
 
 
-const socket = io('https://islamlearn.vercel.app', {
-	query: {
-	  userId: n
-	}
-  });
-		let balance = null;
+const socket = io('https://islamlearn.vercel.app')
 
 		socket.on('connect', () => {
 			console.log('Connected to server');

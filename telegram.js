@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 
+
 // Middleware для обработки JSON и URL-encoded данных -----------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -115,10 +116,7 @@ app.post('/', async (req, res) => {
     collection.updateOne({userId: userId}, { $set: { firstName: firstName } })
     res.status(200).json({ message: 'Пользователь уже существует', user });
   }
-})
 
-app.get('/getFirstName', (req, res) => {
-  res.json({firstName: firstName})
 })
 
 
@@ -128,7 +126,7 @@ server.prependListener("request", (req, res) => {
 
 // Запуск сервера 
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 server.listen(port, () => {
     console.log(`Сервер запущен на islamlearn.vercel.app`);
@@ -138,17 +136,13 @@ server.listen(port, () => {
 
 // socket ----------------------------------------------------------------------------------------------------------------------
 
-const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-  }
-});
+const { Server } = require('socket.io');
+const io = new Server(server);
+
+const user = findUserByUserId(userId)
 
 io.on('connection', async (socket) => {
-  const userId = socket.handshake.query.userId;  // Извлечение userId из запроса
 
-  const user = await findUserByUserId(userId);
-  console.log(user);
   if (user) {
     let user_balance = user.balance;
     let click = user.click;
