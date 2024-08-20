@@ -168,7 +168,7 @@ fetch('/', {
 /* SOCKET */ 
 
 
-const socket = io('wss://islamlearn.vercel.app', {
+const socket = io('https://islamlearn.vercel.app', {
 	query: { userId: id } // Передача userId
   });
 
