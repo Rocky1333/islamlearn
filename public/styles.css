@@ -149,6 +149,11 @@ li img {
 	box-shadow: 0 4px 8px rgb(255, 255, 255);
 	margin: 0 auto;
 	margin-top: 20px;
+	transition: transform 0.5s ease;
+}
+
+.clicker-circle.click {
+	transform: scale(0.8);
 }
 
 /* Planets styles */

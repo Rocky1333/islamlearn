@@ -141,13 +141,18 @@ document.querySelector('.starCanvas').addEventListener('click', closeMenu);
 
 const tg = window.Telegram.WebApp;
 const id = tg.initDataUnsafe.user.id;
-const username = tg.initDataUnsafe.user.first_name;
+const firstname = tg.initDataUnsafe.user.first_name;
+const username = tg.initDataUnsafe.user.username
 
-console.log(id);
-console.log(username);
+const userName = document.querySelector('.firstname h1')
+if(username){
+	userName.textContent = username;
+} else if(firstname) {
+	userName.textContent = firstname
+} else{
+	userName.textContent = "PENIS"
+}
 
-const firstname = document.querySelector('.firstname h1')
-firstname.textContent = username;
 
 fetch('https://islamlearn.vercel.app/', {
     method: 'POST',
@@ -165,60 +170,14 @@ fetch('https://islamlearn.vercel.app/', {
 });
 
 
-/* SOCKET */ 
 
 
-const socket = io('https://islamlearn.vercel.app', {
-	query: { userId: id } // Передача userId
-  });
+const clickerCircle = document.querySelector('.clicker-circle');
 
-		socket.on('connect', () => {
-			console.log('Connected to server');
-		});
-
-		socket.on("balance", user_balance => {
-			document.getElementById('balance').textContent = user_balance;
-			balance = user_balance;
-		});
-
-		socket.on("click", click => {
-			const clicker_circle = document.getElementById('clicker-circle')
-
-			clicker_circle.addEventListener("click", () => {
-				balance += click;
-				clicker_circle.style.transform = "scale(1.02)";
-				
-				// Обновляем отображение баланса после клика
-				document.getElementById('balance').innerHTML = balance;
-				
-				// Отправляем обновленный баланс на сервер
-				socket.emit('balance', balance);
-
-				setTimeout(() => {
-                    clicker_circle.style.transform = "scale(1.0)";
-                }, 100);
-			});
-		});	
-
-		socket.on("level", level => {
-			const container = document.querySelector(".upgrades-container");
-			const children = Array.from(container.querySelectorAll(':scope > div'));
-			
-			// Определяем количество элементов для скрытия
-			const elementsToHide = 8 - level;
-			console.log(level);
-			// Скрываем нужное количество элементов
-			for (let i = 0; i < elementsToHide; i++) {
-				if (i < children.length) {
-					children[i].style.display = "none";
-				}
-			}
-		});
-
-		
-
-		
-
-		
-			
+clickerCircle.addEventListener('click', () => {
+	clickerCircle.classList.add('click');
+	setTimeout(() => {
+		clickerCircle.classList.remove('click')
+	}, 70)
+})
 

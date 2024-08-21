@@ -44,7 +44,6 @@ async function findUserByUserId(id){
     }
   };
 
-
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -75,42 +74,6 @@ app.post('/', async (req, res) => {
 
 })
 
-// socket ----------------------------------------------------------------------------------------------------------------------
-
-const { Server } = require('socket.io');
-const io = new Server(server);
-
-io.on('connection', async (socket) => {
-
- const id = socket.handshake.query.userId
- const user = await findUserByUserId(id)
-
-console.log(user)
-  if (user) {
-    let user_balance = user.balance;
-    let click = user.click;
-    let level = user.level;
-
-    socket.emit('balance', user_balance);
-    socket.emit('click', click);
-    socket.emit('level', level);
-
-    const db = await connectToDb();
-    const users = db.collection("_users");
-
-    async function UpdateUserBalance(balance) {
-      await users.updateOne({ userId: user }, { $set: { balance: balance } });
-    }
-
-    socket.on("balance", balance => {
-      user_balance = balance;
-    });
-
-    socket.on('disconnect', async () => {
-      await UpdateUserBalance(user_balance);
-    });
-  }
-});
 
 const port = process.env.PORT || 3000;
 
