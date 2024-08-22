@@ -206,7 +206,7 @@ clickerCircle.addEventListener('click', click)
 
 window.addEventListener('beforeunload', function (event) {
 	const url = "https://islamlearn.vercel.app/getUserBalance"
-	const data = JSON.stringify({userBalance})
+	const data = JSON.stringify({userBalance, id})
 	
 	navigator.sendBeacon(url, data);
 

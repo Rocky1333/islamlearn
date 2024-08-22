@@ -47,16 +47,12 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let userId = null
+
 
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
   const { id, username } = req.body;
 
-  userId = id
-
-  console.log(userId)
-  
   const newUser = {
     userId: id,
     firstName: username,
@@ -85,10 +81,10 @@ app.post('/', async (req, res) => {
 
 
 app.post('/getUserBalance', async (req, res) => {
-  const userBalance = req.body.userBalance; // Извлекаем необходимые данные из тела запроса
+  const {userBalance, id} = req.body; // Извлекаем необходимые данные из тела запроса
 
-  if (!userId || userBalance === undefined) {
-    return res.status(400).json({ error: 'Missing userId or userBalance' }); // Проверка на наличие необходимых данных
+  if (!id || userBalance === undefined) {
+    return res.status(400).json({ error: 'Missing id or userBalance' }); // Проверка на наличие необходимых данных
   }
 
   try {
@@ -97,7 +93,7 @@ app.post('/getUserBalance', async (req, res) => {
 
     // Обновляем баланс пользователя
     const result = await collection.updateOne(
-      { userId: userId },
+      { userId: id },
       { $set: { balance: userBalance } }
     );
 
