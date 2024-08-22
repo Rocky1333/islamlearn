@@ -1,14 +1,4 @@
 
-
-function clearAppData() {
-	localStorage.clear();
-	sessionStorage.clear();
-	
-  }
-  
-  window.addEventListener('load', clearAppData);
-
-
 const DISPLAY_DURATION = 3000; // 3 секунды
 
 // Функция для скрытия загрузочного экрана и отображения основного контента
@@ -233,15 +223,6 @@ window.addEventListener('beforeunload', function (event) {
     const url = "https://islamlearn.vercel.app/getUserBalance";
     const data = JSON.stringify({ userBalance, id });
 
-    // Создаем запрос
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).catch(error => {
-        console.error('Error sending data:', error);
-    });
+    navigator.sendBeacon(url, data)
 });
 
