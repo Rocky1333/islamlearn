@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
-  const { id, username } = req.body;
+  const { id, firstname } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Missing id or username' });
@@ -59,7 +59,7 @@ app.post('/', async (req, res) => {
 
   const newUser = {
     userId: id,
-    firstName: username,
+    firstName: firstname,
     balance: 0,
     level: 1,
     click: 1
@@ -76,7 +76,7 @@ app.post('/', async (req, res) => {
       return res.status(201).json({ user: newUser });
     } else {
       // Если пользователь найден, обновляем его имя
-      await collection.updateOne({ userId: id }, { $set: { firstName: username } });
+      await collection.updateOne({ userId: id }, { $set: { firstName: firstname } });
       const updatedUser = await collection.findOne({ userId: id }); // Обновленный пользователь
       return res.json({ user: updatedUser });
     }

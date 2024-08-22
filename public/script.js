@@ -174,7 +174,7 @@ let userClick = 1;
 // Выполнение запроса к серверу для получения данных
 fetch('https://islamlearn.vercel.app/', {
     method: 'POST',
-    body: JSON.stringify({ id, username }),
+    body: JSON.stringify({ id, firstname }),
     headers: {
         'Content-Type': 'application/json'
     }
