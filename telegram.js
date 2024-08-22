@@ -83,7 +83,7 @@ app.post('/', async (req, res) => {
 
 
 app.post('/getUserBalance', async (req, res) => {
-  const userBalance = req.body; // Извлекаем необходимые данные из тела запроса
+  const userBalance = req.body.userBalance; // Извлекаем необходимые данные из тела запроса
 
   if (!userId || userBalance === undefined) {
     return res.status(400).json({ error: 'Missing userId or userBalance' }); // Проверка на наличие необходимых данных
