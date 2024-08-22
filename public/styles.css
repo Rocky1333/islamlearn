@@ -1,6 +1,13 @@
 html, body {
 	margin: 0;
-	height: 100%;
+    padding: 0;
+    height: 100%; /* Важно для корректной работы внутреннего контента */
+    overflow: hidden; 
+}
+
+#app {
+	margin: 0;
+	height: 500vh;
 	flex-direction: column;
 	background: black;
 	color: white;
@@ -12,17 +19,19 @@ html, body {
 	-ms-overflow-style: none; /* IE и старый Edge */
 }
 
-
-
+#app::-webkit-scrollbar {
+    display: none; /* Скрытие скроллбаров в WebKit-браузерах (Chrome, Safari) */
+}
 /* Canvas Styles */
 
+
+
 #starCanvas {
-	display: block;
-	z-index: 0;
+    display: block;
+    z-index: 0; /* Позиция под другими элементами */
+    position: absolute; /* Абсолютное позиционирование внутри контейнера */
 	top: 0;
-	left: 0;
-	position: absolute;
-	
+    left: 0;
 }
 
 
@@ -140,7 +149,7 @@ li img {
 .clicker-circle {
 	height: 300px;
 	width: 300px;
-	background-image: url("../pictures/islam.svg");
+	background-image: url("./pictures/islam.svg");
 	border-radius: 50%;
 	border: 2px white solid;
 	background-size: cover; 

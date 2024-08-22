@@ -1,10 +1,11 @@
 
-
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = document.body.clientWidth; // Установка ширины canvas равной ширине body
-canvas.height = document.body.clientHeight; // Установка высоты canvas равной высоте body
+const app = document.getElementById('app')
+
+canvas.width = app.offsetWidth;; // Установка ширины canvas равной ширине body
+canvas.height = app.offsetHeight; // Установка высоты canvas равной высоте body
 
 const stars = [];
 const numStars = 400;
