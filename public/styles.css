@@ -2,7 +2,6 @@ html, body {
 	margin: 0;
     padding: 0;
     height: 100%; /* Важно для корректной работы внутреннего контента */
-    overflow: hidden; 
 	margin: 0;
 	height: 500vh;
 	flex-direction: column;
@@ -12,7 +11,6 @@ html, body {
 	overflow-x: hidden;
 	overflow-y: auto;
 	scrollbar-width: none;
-	-webkit-overflow-scrolling: touch;
 	-ms-overflow-style: none; /* IE и старый Edge */
 }
 
@@ -50,7 +48,7 @@ html, body {
 	z-index: 1;
 	overflow-y: auto;
 	min-height: 13vh;
-	transition: height 0.20s ease;
+	transition: min-height 0.20s ease;
 	overflow: hidden;
 }
 

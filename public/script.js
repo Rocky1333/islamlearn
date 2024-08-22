@@ -3,7 +3,6 @@
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 
-const app = document.getElementById('app')
 
 canvas.width = document.body.clientWidth; // Установка ширины canvas равной ширине body
 canvas.height = document.body.clientHeight; // Установка высоты canvas равной высоте body
@@ -111,7 +110,7 @@ function openMenu(menuToShow, ulToHighlight) {
 }
 
 function closeMenu() {
-    let menuHeightPx = parseFloat(window.getComputedStyle(menu).height);
+    let menuHeightPx = parseFloat(window.getComputedStyle(menu).minHeight);
 
     if (menuHeightPx >= window.innerHeight * 0.75) {
         menu.style.minHeight = "13vh";
