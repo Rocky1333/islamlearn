@@ -3,9 +3,6 @@ html, body {
     padding: 0;
     height: 100%; /* Важно для корректной работы внутреннего контента */
     overflow: hidden; 
-}
-
-#app {
 	margin: 0;
 	height: 500vh;
 	flex-direction: column;
@@ -19,13 +16,7 @@ html, body {
 	-ms-overflow-style: none; /* IE и старый Edge */
 }
 
-#app::-webkit-scrollbar {
-    display: none; /* Скрытие скроллбаров в WebKit-браузерах (Chrome, Safari) */
-}
 /* Canvas Styles */
-
-
-
 #starCanvas {
     display: block;
     z-index: 0; /* Позиция под другими элементами */
@@ -33,7 +24,6 @@ html, body {
 	top: 0;
     left: 0;
 }
-
 
 
 /* balance */
