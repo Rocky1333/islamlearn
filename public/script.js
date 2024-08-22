@@ -181,7 +181,7 @@ fetch('https://islamlearn.vercel.app/', {
 })
 .then(response => response.json())
 .then(data => {
-    if (data.balance !== undefined && data.click !== undefined) {
+    if (data.user.balance !== undefined && data.user.click !== undefined) {
         userBalance = data.user.balance;
         userClick = data.user.click;
 		const balance = document.querySelector('.balance');
@@ -222,8 +222,6 @@ clickerCircle.addEventListener('click', click);
 window.addEventListener('beforeunload', function (event) {
 	const url = "https://islamlearn.vercel.app/getUserBalance"
 	const data = JSON.stringify({userBalance, id})
-	
 	navigator.sendBeacon(url, data);
-
 }); 
 
