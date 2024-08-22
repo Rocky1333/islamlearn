@@ -53,6 +53,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/', async (req, res) => {
   const { id, username } = req.body;
 
+  if (!id || !username) {
+    return res.status(400).json({ error: 'Missing id or username' });
+  }
+
   const newUser = {
     userId: id,
     firstName: username,
@@ -61,23 +65,27 @@ app.post('/', async (req, res) => {
     click: 1
   };
 
-  const db = await connectToDb();
-  const collection = db.collection('_users');
-  const user = await collection.findOne({ userId: id });
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('_users');
+    const user = await collection.findOne({ userId: id });
 
-  if (!user) {
-    await collection.insertOne(newUser);
+    if (!user) {
+      // Если пользователь не найден, создаем нового
+      await collection.insertOne(newUser);
+      return res.status(201).json({ user: newUser });
+    } else {
+      // Если пользователь найден, обновляем его имя
+      await collection.updateOne({ userId: id }, { $set: { firstName: username } });
+      const updatedUser = await collection.findOne({ userId: id }); // Обновленный пользователь
+      return res.json({ user: updatedUser });
+    }
+  } catch (error) {
+    console.error('Error handling request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  await collection.updateOne({ userId: id }, { $set: { firstName: username } });
-
-  if (user) {
-    res.json({ user });
-  } else {
-    res.json({ newUser });
-  }
-
 });
+
 
 
 app.post('/getUserBalance', async (req, res) => {
