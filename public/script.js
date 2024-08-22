@@ -168,40 +168,53 @@ if(username){
 	userName.textContent = "PENIS"
 }
 
-let userBalance = null 
-let userClick = null
+let userBalance = 0; 
+let userClick = 1;   
 
+// Выполнение запроса к серверу для получения данных
 fetch('https://islamlearn.vercel.app/', {
     method: 'POST',
     body: JSON.stringify({ id, username }),
     headers: {
         'Content-Type': 'application/json'
     }
-	})
-	.then(response => response.json())
-	.then(data => {
-		userBalance = data.balance
-		userClick = data.click
-	})
-	.catch(error => {
-		console.error('Error:', error);
-	});
+})
+.then(response => response.json())
+.then(data => {
+    if (data.balance !== undefined && data.click !== undefined) {
+        userBalance = data.balance;
+        userClick = data.click;
+    } else {
+        console.error('Response data is missing required fields:', data);
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+});
 
-
-
-const balance = document.querySelector('.balance')
+// Работа с элементами интерфейса
+const balance = document.querySelector('.balance');
 const clickerCircle = document.querySelector('.clicker-circle');
 
-function click(){
-	clickerCircle.classList.add('click');
-	userBalance = userBalance + userClick;
-	balance.textContent = userBalance
-	setTimeout(() => {
-		clickerCircle.classList.remove('click')
-	}, 70)
+// Функция обработки кликов
+function click() {
+    if (userBalance !== undefined && userClick !== undefined) {
+        userBalance += userClick; // Обновление баланса
+        balance.textContent = userBalance; // Обновление отображения баланса
+    } else {
+        console.error('User balance or user click is undefined');
+    }
+    
+    clickerCircle.classList.add('click');
+    
+    setTimeout(() => {
+        clickerCircle.classList.remove('click');
+    }, 70);
 }
 
-clickerCircle.addEventListener('click', click)
+// Добавление обработчика клика
+clickerCircle.addEventListener('click', click);
+
 
 
 window.addEventListener('beforeunload', function (event) {
