@@ -1,4 +1,14 @@
 
+
+function clearAppData() {
+	localStorage.clear();
+	sessionStorage.clear();
+	
+  }
+  
+  window.addEventListener('load', clearAppData);
+
+
 const DISPLAY_DURATION = 3000; // 3 секунды
 
 // Функция для скрытия загрузочного экрана и отображения основного контента
