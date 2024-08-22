@@ -47,11 +47,13 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
+const userId = null
+
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
   const { id, username } = req.body;
 
-  console.log(id);
+  userId = id
 
   const newUser = {
     userId: id,
@@ -81,14 +83,32 @@ app.post('/', async (req, res) => {
 
 
 app.post('/getUserBalance', async (req, res) => {
-  const userBalance = req.body.userBalance;
+  const { userId, userBalance } = req.body; // Извлекаем необходимые данные из тела запроса
 
-  const db = await connectToDb()
-  const collection = db.collection('_users')
+  if (!userId || userBalance === undefined) {
+    return res.status(400).json({ error: 'Missing userId or userBalance' }); // Проверка на наличие необходимых данных
+  }
 
-  collection.updateOne({userId: id}, {$set: {balance: userBalance}})
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('_users');
 
-})
+    // Обновляем баланс пользователя
+    const result = await collection.updateOne(
+      { userId: userId },
+      { $set: { balance: userBalance } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'User not found' }); // Если пользователь не найден
+    }
+
+    res.status(200).json({ message: 'User balance updated successfully' }); // Успешный ответ
+  } catch (error) {
+    console.error('Error updating user balance:', error);
+    res.status(500).json({ error: 'Internal Server Error' }); // Ошибка сервера
+  }
+});
 
 const port = process.env.PORT || 3000;
 
