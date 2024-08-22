@@ -47,7 +47,7 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const userId = null
+let userId = null
 
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
