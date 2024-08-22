@@ -1,8 +1,25 @@
 
+const DISPLAY_DURATION = 3000; // 3 секунды
+
+// Функция для скрытия загрузочного экрана и отображения основного контента
+function hideLoader() {
+	document.getElementById('loader').style.display = 'none'; // Скрыть загрузочный экран
+	document.getElementById('app').style.display = 'flex'; // Показать основной контент
+	document.body.classList.remove('hidden'); // Убрать класс, блокирующий прокрутку
+}
+
+// Скрыть загрузочный экран после задержки
+setTimeout(hideLoader, DISPLAY_DURATION);
+
+// Обработчик события загрузки страницы
+window.addEventListener('load', function() {
+	// Если загрузка страницы занимает больше времени, чем таймер, использовать таймер
+	setTimeout(hideLoader, DISPLAY_DURATION);
+});
+
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
-
 
 canvas.width = document.body.clientWidth; // Установка ширины canvas равной ширине body
 canvas.height = document.body.clientHeight; // Установка высоты canvas равной высоте body
