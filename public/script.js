@@ -177,7 +177,8 @@ const clickerCircle = document.querySelector('.clicker-circle');
 
 clickerCircle.addEventListener('click', () => {
 	clickerCircle.classList.add('click');
-	balance.textContent = count + 1
+	count += 1
+	balance.textContent = count
 	setTimeout(() => {
 		clickerCircle.classList.remove('click')
 	}, 70)
