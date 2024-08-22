@@ -170,12 +170,14 @@ fetch('https://islamlearn.vercel.app/', {
 });
 
 
-
+const balance = document.querySelector('.balance')
+const count = 0
 
 const clickerCircle = document.querySelector('.clicker-circle');
 
 clickerCircle.addEventListener('click', () => {
 	clickerCircle.classList.add('click');
+	balance.textContent = count + 1
 	setTimeout(() => {
 		clickerCircle.classList.remove('click')
 	}, 70)
