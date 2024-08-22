@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/', async (req, res) => {
   const { id, username } = req.body;
 
-  if (!id || !username) {
+  if (!id) {
     return res.status(400).json({ error: 'Missing id or username' });
   }
 
