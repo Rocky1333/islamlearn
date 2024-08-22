@@ -171,7 +171,7 @@ fetch('https://islamlearn.vercel.app/', {
 
 
 const balance = document.querySelector('.balance')
-const count = 0
+let count = 0
 
 const clickerCircle = document.querySelector('.clicker-circle');
 
