@@ -182,8 +182,8 @@ fetch('https://islamlearn.vercel.app/', {
 .then(response => response.json())
 .then(data => {
     if (data.balance !== undefined && data.click !== undefined) {
-        userBalance = data.balance;
-        userClick = data.click;
+        userBalance = data.user.balance;
+        userClick = data.user.click;
     } else {
         console.error('Response data is missing required fields:', data);
     }
