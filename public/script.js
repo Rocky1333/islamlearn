@@ -169,7 +169,6 @@ fetch('https://islamlearn.vercel.app/', {
     console.error('Error:', error);
 });
 
-
 const balance = document.querySelector('.balance')
 let count = 0
 
