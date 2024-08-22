@@ -184,6 +184,8 @@ fetch('https://islamlearn.vercel.app/', {
     if (data.balance !== undefined && data.click !== undefined) {
         userBalance = data.balance;
         userClick = data.click;
+		const balance = document.querySelector('.balance');
+		balance.textContent = userBalance
     } else {
         console.error('Response data is missing required fields:', data);
     }
