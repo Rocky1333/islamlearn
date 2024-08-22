@@ -55,6 +55,8 @@ app.post('/', async (req, res) => {
 
   userId = id
 
+  console.log(userId)
+  
   const newUser = {
     userId: id,
     firstName: username,
