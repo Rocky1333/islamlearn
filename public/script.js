@@ -201,7 +201,7 @@ function click(){
 }
 
 clickerCircle.addEventListener('click', click)
-clickerCircle.addEventListener('touchstart', click)
+
 
 
 
