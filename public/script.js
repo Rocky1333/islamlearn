@@ -113,7 +113,7 @@ function highlightBorder(activeUl) {
 
 function openMenu(menuToShow, ulToHighlight) {
     setTimeout(function() {
-        menu.style.minHeight = "85vh";
+        menu.style.height = "85vh";
         canvas_bg.style.filter = "blur(2px)";
         container.style.filter = "blur(3px)";
         border_bottom_ul.style.borderBottom = "2px white solid";
@@ -127,10 +127,10 @@ function openMenu(menuToShow, ulToHighlight) {
 }
 
 function closeMenu() {
-    let menuHeightPx = parseFloat(window.getComputedStyle(menu).minHeight);
+    let menuHeightPx = parseFloat(window.getComputedStyle(menu).height);
 
     if (menuHeightPx >= window.innerHeight * 0.75) {
-        menu.style.minHeight = "13vh";
+        menu.style.height = "13vh";
         canvas_bg.style.filter = "none";
         container.style.filter = "none";
         body.style.overflow = "auto";
