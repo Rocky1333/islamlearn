@@ -81,9 +81,6 @@ animate();
 
 
 
-
-
-
 // Настройки меню навигации.
 
 let menu = document.querySelector('.footer');
@@ -171,6 +168,8 @@ if(username){
 	userName.textContent = "PENIS"
 }
 
+let userBalance = null 
+let userClick = null
 
 fetch('https://islamlearn.vercel.app/', {
     method: 'POST',
@@ -178,23 +177,25 @@ fetch('https://islamlearn.vercel.app/', {
     headers: {
         'Content-Type': 'application/json'
     }
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Server response:', data);
-})
-.catch(error => {
-    console.error('Error:', error);
-});
+	})
+	.then(response => response.json())
+	.then(data => {
+		userBalance = data.balance
+		userClick = data.click
+	})
+	.catch(error => {
+		console.error('Error:', error);
+	});
+
+
 
 const balance = document.querySelector('.balance')
-let count = 0
 const clickerCircle = document.querySelector('.clicker-circle');
 
 function click(){
 	clickerCircle.classList.add('click');
-	count += 1
-	balance.textContent = count
+	userBalance = userBalance + userClick;
+	balance.textContent = userBalance
 	setTimeout(() => {
 		clickerCircle.classList.remove('click')
 	}, 70)
@@ -203,5 +204,11 @@ function click(){
 clickerCircle.addEventListener('click', click)
 
 
+window.addEventListener('beforeunload', function (event) {
+	const url = "https://islamlearn.vercel.app/getUserBalance"
+	const data = JSON.stringify({userBalance})
+	
+	navigator.sendBeacon(url, data);
 
+});
 

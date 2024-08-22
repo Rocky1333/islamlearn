@@ -47,11 +47,11 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+// обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
-  const {id, username} = req.body;
+  const { id, username } = req.body;
 
-  console.log(id)
+  console.log(id);
 
   const newUser = {
     userId: id,
@@ -59,21 +59,36 @@ app.post('/', async (req, res) => {
     balance: 0,
     level: 1,
     click: 1
+  };
+
+  const db = await connectToDb();
+  const collection = db.collection('_users');
+  const user = await collection.findOne({ userId: id });
+
+  if (!user) {
+    await collection.insertOne(newUser);
   }
+
+  await collection.updateOne({ userId: id }, { $set: { firstName: username } });
+
+  if (user) {
+    res.json({ user });
+  } else {
+    res.json({ newUser });
+  }
+
+});
+
+
+app.post('/getUserBalance', async (req, res) => {
+  const userBalance = req.body.userBalance;
 
   const db = await connectToDb()
   const collection = db.collection('_users')
-  const user = await collection.findOne( {userId: id } )
 
-  if(!user){
-    await collection.insertOne(newUser)
-  } else {
-    collection.updateOne({userId: id}, { $set: { firstName: username } })
-    res.status(200).json({ message: 'Пользователь уже существует', user });
-  }
+  collection.updateOne({userId: id}, {$set: {balance: userBalance}})
 
 })
-
 
 const port = process.env.PORT || 3000;
 
