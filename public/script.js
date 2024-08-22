@@ -1,11 +1,12 @@
 
+
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 
 const app = document.getElementById('app')
 
-canvas.width = app.offsetWidth;; // Установка ширины canvas равной ширине body
-canvas.height = app.offsetHeight; // Установка высоты canvas равной высоте body
+canvas.width = document.body.clientWidth; // Установка ширины canvas равной ширине body
+canvas.height = document.body.clientHeight; // Установка высоты canvas равной высоте body
 
 const stars = [];
 const numStars = 400;
@@ -96,7 +97,7 @@ function highlightBorder(activeUl) {
 
 function openMenu(menuToShow, ulToHighlight) {
     setTimeout(function() {
-        menu.style.height = "85vh";
+        menu.style.minHeight = "85vh";
         canvas_bg.style.filter = "blur(2px)";
         container.style.filter = "blur(3px)";
         border_bottom_ul.style.borderBottom = "2px white solid";
@@ -113,7 +114,7 @@ function closeMenu() {
     let menuHeightPx = parseFloat(window.getComputedStyle(menu).height);
 
     if (menuHeightPx >= window.innerHeight * 0.75) {
-        menu.style.height = "13vh";
+        menu.style.minHeight = "13vh";
         canvas_bg.style.filter = "none";
         container.style.filter = "none";
         body.style.overflow = "auto";
