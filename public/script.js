@@ -219,5 +219,19 @@ clickerCircle.addEventListener('click', click);
 
 
 
+window.addEventListener('beforeunload', function (event) {
+    const url = "https://islamlearn.vercel.app/getUserBalance";
+    const data = JSON.stringify({ userBalance, id });
 
+    // Создаем запрос
+    fetch(url, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).catch(error => {
+        console.error('Error sending data:', error);
+    });
+});
 
