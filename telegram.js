@@ -3,8 +3,8 @@ const path = require('path')
 const express = require('express');
 const app = express();
 const http = require("http")
-const server = http.createServer(app)
-
+const WebSocket = require('ws')
+const wss = new WebSocket.Server({ port: 3000 });
 
 // Подключаемся к MongoDB 
 const { MongoClient } = require('mongodb');
@@ -47,7 +47,7 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+let userId = null
 
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
@@ -55,7 +55,9 @@ app.post('/', async (req, res) => {
 
   if (!id) {
     return res.status(400).json({ error: 'Missing id or username' });
-  }
+  } 
+
+  userId = id
 
   const newUser = {
     userId: id,
@@ -87,37 +89,33 @@ app.post('/', async (req, res) => {
 });
 
 
+wss.on('connection', (ws) => {
+  console.log('Клиент подключился');
 
-app.post('/getUserBalance', async (req, res) => {
-  const {userBalance, id} = req.body; // Извлекаем необходимые данные из тела запроса
+  // Пример идентификатора пользователя
+  const user = findUserByUserId(userId);
+  const balance = user.balance;
 
-  if (!id || userBalance === undefined) {
-    return res.status(400).json({ error: 'Missing id or userBalance' }); // Проверка на наличие необходимых данных
-  }
+  // Отправка баланса клиенту
+  ws.send(JSON.stringify({ type: 'balance', balance: balance }));
 
-  try {
-    const db = await connectToDb();
-    const collection = db.collection('_users');
+  ws.on('close', () => {
+      console.log('Клиент отключился');
+  });
 
-    // Обновляем баланс пользователя
-    const result = await collection.updateOne(
-      { userId: id },
-      { $set: { balance: userBalance } }
-    );
-
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ error: 'User not found' }); // Если пользователь не найден
-    }
-
-    res.status(200).json({ message: 'User balance updated successfully' }); // Успешный ответ
-  } catch (error) {
-    console.error('Error updating user balance:', error);
-    res.status(500).json({ error: 'Internal Server Error' }); // Ошибка сервера
-  }
+  ws.on('error', (error) => {
+      console.error('Ошибка WebSocket:', error);
+  });
 });
 
-const port = process.env.PORT || 3000;
 
+
+
+
+
+// запуск сервера
+const port = process.env.PORT || 3000;
+const server = http.createServer(app)
 server.listen(port, () => {
     console.log(`Сервер запущен на islamlearn.vercel.app`);
 });

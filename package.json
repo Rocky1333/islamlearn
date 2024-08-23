@@ -8,8 +8,8 @@
     "mongoose": "^8.5.0",
     "node-telegram-bot-api": "^0.63.0",
     "path": "^0.12.7",
-    "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.18.0"
   },
   "name": "islamlearn",
   "version": "1.0.0",
