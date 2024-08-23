@@ -3,7 +3,7 @@ const path = require('path')
 const express = require('express');
 const app = express();
 const http = require("http")
-
+const server = http.createServer(app)
 
 
 // Подключаемся к MongoDB 
@@ -87,9 +87,37 @@ app.post('/', async (req, res) => {
 });
 
 
-// запуск сервера
+
+app.post('/getUserBalance', async (req, res) => {
+  const {userBalance, id} = req.body; // Извлекаем необходимые данные из тела запроса
+
+  if (!id || userBalance === undefined) {
+    return res.status(400).json({ error: 'Missing id or userBalance' }); // Проверка на наличие необходимых данных
+  }
+
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('_users');
+
+    // Обновляем баланс пользователя
+    const result = await collection.updateOne(
+      { userId: id },
+      { $set: { balance: userBalance } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'User not found' }); // Если пользователь не найден
+    }
+
+    res.status(200).json({ message: 'User balance updated successfully' }); // Успешный ответ
+  } catch (error) {
+    console.error('Error updating user balance:', error);
+    res.status(500).json({ error: 'Internal Server Error' }); // Ошибка сервера
+  }
+});
+
 const port = process.env.PORT || 3000;
-const server = http.createServer(app)
+
 server.listen(port, () => {
     console.log(`Сервер запущен на islamlearn.vercel.app`);
 });
