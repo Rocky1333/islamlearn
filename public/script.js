@@ -168,7 +168,8 @@ if(username){
 	userName.textContent = "PENIS"
 }
 
-
+let userBalance = 0; 
+let userClick = 1;   
 
 // Выполнение запроса к серверу для получения данных
 fetch('https://islamlearn.vercel.app/', {
@@ -179,7 +180,16 @@ fetch('https://islamlearn.vercel.app/', {
     }
 })
 .then(response => response.json())
-.then(data => {console.log(data)})
+.then(data => {
+    if (data.user.balance !== undefined && data.user.click !== undefined) {
+        userBalance = data.user.balance;
+        userClick = data.user.click;
+		const balance = document.querySelector('.balance');
+		balance.textContent = userBalance
+    } else {
+        console.error('Response data is missing required fields:', data);
+    }
+})
 .catch(error => {
     console.error('Error:', error);
 });
@@ -209,16 +219,5 @@ clickerCircle.addEventListener('click', click);
 
 
 
-const WebSocket = require('ws')
 
-const ws = new WebSocket("wss://islamlearn.vercel.app")
 
-ws.onmessage = (event) => {
-    // Преобразование строки JSON в объект
-    const data = JSON.parse(event.data);
-    if (data.type === 'balance') {
-        console.log('Баланс от сервера:', data.balance);
-        const balance = document.getElementById('balance')
-        balance.textContent = data.balance;
-    }
-};

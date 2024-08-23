@@ -47,7 +47,7 @@ async function findUserByUserId(id){
 // обработка папки public 
 app.use(express.static(path.join(__dirname, 'public')));
 
-let userId = null
+
 
 // обработка post запроса авторизация "/"
 app.post('/', async (req, res) => {
@@ -55,9 +55,7 @@ app.post('/', async (req, res) => {
 
   if (!id) {
     return res.status(400).json({ error: 'Missing id or username' });
-  } 
-
-  userId = id
+  }
 
   const newUser = {
     userId: id,
@@ -88,25 +86,17 @@ app.post('/', async (req, res) => {
   }
 });
 
+let userBalance = null
 
 wss.on('connection', (ws) => {
-  console.log('Клиент подключился');
 
-  // Пример идентификатора пользователя
-  const user = findUserByUserId(userId);
-  const balance = user.balance;
+  console.log("socket connected")
 
-  // Отправка баланса клиенту
-  ws.send(JSON.stringify({ type: 'balance', balance: balance }));
+  ws.on('getUserBalance', (balance) => {
+    userBalance = balance
+  })
 
-  ws.on('close', () => {
-      console.log('Клиент отключился');
-  });
-
-  ws.on('error', (error) => {
-      console.error('Ошибка WebSocket:', error);
-  });
-});
+})
 
 
 
