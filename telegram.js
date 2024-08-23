@@ -3,8 +3,8 @@ const path = require('path')
 const express = require('express');
 const app = express();
 const http = require("http")
-const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 3000 });
+
+
 
 // Подключаемся к MongoDB 
 const { MongoClient } = require('mongodb');
@@ -85,22 +85,6 @@ app.post('/', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-let userBalance = null
-
-wss.on('connection', (ws) => {
-
-  console.log("socket connected")
-
-  ws.on('getUserBalance', (balance) => {
-    userBalance = balance
-  })
-
-})
-
-
-
-
 
 
 // запуск сервера
